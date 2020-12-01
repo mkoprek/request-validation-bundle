@@ -1,0 +1,34 @@
+{
+    "name": "mkoprek/request-validation-bundle",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Maciej Koprek",
+            "email": "maciej.koprek@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "symfony/config": "^4.4",
+        "symfony/dependency-injection": "^4.4",
+        "symfony/http-kernel": "^4.4",
+        "symfony/validator": "^4.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "MKoprek\\RequestValidation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\MKoprek\\RequestValidation\\": "tests/unit/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

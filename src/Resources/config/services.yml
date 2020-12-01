@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  MKoprek\RequestValidation\Resolver\RequestResolver:
+    tags:
+      - { name: controller.argument_value_resolver, priority: 50 }
+
+  MKoprek\RequestValidation\Response\ResponseSubscriber:
+    tags:
+      - { name: kernel.event_subscriber, event: kernel.exception }
