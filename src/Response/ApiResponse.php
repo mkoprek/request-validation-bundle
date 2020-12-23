@@ -6,24 +6,35 @@ namespace MKoprek\RequestValidation\Response;
 use FutureNet\RestApi\Mapper\EntityMapper;
 use JsonSerializable;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiResponse extends JsonResponse
 {
-    public static function empty(int $status = self::HTTP_OK): self
+    public static function empty()
     {
-        return new self(null, $status, [], false);
+        return new Response('', 204);
     }
 
     public static function collection(
-        $data,
+        ?iterable $data,
+        string $class,
         int $status = ApiResponse::HTTP_OK,
         array $headers = [],
         bool $json = false
     ): self {
+        $return = [];
+
+        if (is_iterable($data)) {
+            /** @var JsonSerializable $item */
+            foreach ($data as $item) {
+                $return[] = (new $class($item))->jsonSerialize();
+            }
+        }
+
         return new self(
             [
                 'data' => [
-                    'collection' => $data instanceof JsonSerializable ? $data->jsonSerialize() : $data,
+                    'collection' => $return,
                 ],
             ],
             $status,
