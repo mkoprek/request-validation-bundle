@@ -26,11 +26,6 @@ abstract class AbstractRequest implements RequestInterface
         }
 
         foreach ($data as $key => $val) {
-
-            if (ctype_digit($val)) {
-                $val = (int)$val;
-            }
-
             $this->params[$key] = $val;
 
             if (property_exists($this, $this->convertToCamelCase($key))) {
@@ -42,11 +37,6 @@ abstract class AbstractRequest implements RequestInterface
 
         if (array_key_exists('_route_params', $routeParams)) {
             foreach ($routeParams['_route_params'] as $key => $val) {
-
-                if (ctype_digit($val)) {
-                    $val = (int)$val;
-                }
-
                 $this->params[$this->convertToSnakeCase($key)] = $val;
 
                 if (property_exists($this, $this->convertToCamelCase($key))) {
