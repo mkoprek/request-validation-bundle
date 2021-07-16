@@ -42,7 +42,7 @@ class ResponseSubscriber implements EventSubscriberInterface
         $event->setResponse($response);
     }
 
-    /** @return mixed[][] */
+    /** @return array<array<mixed>> */
     public static function getSubscribedEvents(): array
     {
         return [

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace MKoprek\RequestValidation\Resolver;
 
-use MKoprek\RequestValidation\Request\RequestInterface;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
+use MKoprek\RequestValidation\Request\RequestInterface;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +14,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestResolver implements ArgumentValueResolverInterface
 {
-    private ContainerInterface $container;
-    private ValidatorInterface $validator;
-
-    public function __construct(ContainerInterface $container, ValidatorInterface $validator)
+    public function __construct(private ContainerInterface $container, private ValidatorInterface $validator)
     {
-        $this->container = $container;
-        $this->validator = $validator;
     }
 
+    /**
+     * @return bool
+     */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
         if ($argument->getType() === null || $argument->getType() === '') {
@@ -38,6 +36,9 @@ class RequestResolver implements ArgumentValueResolverInterface
         return $reflection->implementsInterface(RequestInterface::class);
     }
 
+    /**
+     * @return \Generator
+     */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
         /** @var RequestInterface $customRequest */

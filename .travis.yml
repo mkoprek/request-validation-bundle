@@ -17,7 +17,6 @@ install:
   - composer install
 
 script:
-  - vendor/bin/phpcs -s
   - vendor/bin/phpstan analyse --level=5 src/
   - vendor/bin/phpunit --coverage-clover coverage.xml
 

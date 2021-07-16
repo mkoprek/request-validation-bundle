@@ -36,6 +36,7 @@ abstract class AbstractRequest implements RequestInterface
 
         $routeParams = $request->attributes->all();
 
+        // phpcs:ignore
         if (array_key_exists('_route_params', $routeParams)) {
             foreach ($routeParams['_route_params'] as $key => $val) {
                 $this->params[$this->convertToSnakeCase($key)] = $val;
