@@ -4,20 +4,21 @@
     "authors": [
         {
             "name": "Maciej Koprek",
-            "email": "maciej.koprek@gmail.com"
+            "email": "mkoprek@gmail.com"
         }
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-json": "*",
-        "symfony/config": "^4.4",
-        "symfony/dependency-injection": "^4.4",
-        "symfony/http-kernel": "^4.4",
-        "symfony/validator": "^4.4"
+        "symfony/config": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/http-kernel": "^5.3",
+        "symfony/validator": "^5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4"
+        "phpstan/phpstan": "^0.12.92",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -26,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\MKoprek\\RequestValidation\\": "tests/unit/"
+            "Tests\\MKoprek\\RequestValidation\\": "tests/"
         }
     },
     "config": {

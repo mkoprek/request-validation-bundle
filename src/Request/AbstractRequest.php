@@ -21,8 +21,9 @@ abstract class AbstractRequest implements RequestInterface
 
         $data = $request->query->all();
 
-        if ($request->getMethod() !== 'GET') {
-            $data = $request->request->all();
+        if (in_array($request->getMethod(), ['POST', 'PATCH'])) {
+            $data = $request->getContent();
+            $data = json_decode((string)$data, true);
         }
 
         foreach ($data as $key => $val) {
@@ -35,6 +36,7 @@ abstract class AbstractRequest implements RequestInterface
 
         $routeParams = $request->attributes->all();
 
+        // phpcs:ignore
         if (array_key_exists('_route_params', $routeParams)) {
             foreach ($routeParams['_route_params'] as $key => $val) {
                 $this->params[$this->convertToSnakeCase($key)] = $val;
@@ -46,13 +48,13 @@ abstract class AbstractRequest implements RequestInterface
         }
     }
 
-    private function convertToCamelCase(string $string)
+    private function convertToCamelCase(string $string): string
     {
         return lcfirst(str_replace('_', '', ucwords($string, '_')));
     }
 
-    private function convertToSnakeCase(string $string)
+    private function convertToSnakeCase(string $string): string
     {
-        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
+        return strtolower((string)preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
     }
 }
