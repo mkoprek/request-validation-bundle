@@ -6,6 +6,10 @@ sudo: required
 php:
   - 8.0
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 services:
   - mysql
 
