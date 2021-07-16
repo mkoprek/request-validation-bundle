@@ -18,7 +18,7 @@ install:
 
 script:
   - vendor/bin/phpcs -s
-  - vendor/bin/phpstan analyse --level=max src/
+  - vendor/bin/phpstan analyse --level=5 src/
   - vendor/bin/phpunit --coverage-clover coverage.xml
 
 after_success:
