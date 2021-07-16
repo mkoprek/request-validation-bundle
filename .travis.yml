@@ -4,7 +4,7 @@ language: php
 sudo: required
 
 php:
-  - '8.0.8'
+  - 8.0
 
 services:
   - mysql

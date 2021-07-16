@@ -11,13 +11,13 @@
     "require": {
         "php": ">=8.0",
         "ext-json": "*",
-        "phpstan/phpstan": "^0.12.92",
         "symfony/config": "^5.3",
         "symfony/dependency-injection": "^5.3",
         "symfony/http-kernel": "^5.3",
         "symfony/validator": "^5.3"
     },
     "require-dev": {
+        "phpstan/phpstan": "^0.12.92",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
