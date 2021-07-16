@@ -1,0 +1,14 @@
+language: php
+sudo: required
+dist: trusty
+
+php:
+  - '8.0.8'
+
+services:
+  - mysql
+
+script:
+  - composer self-update
+  - composer install
+  - vendor/bin/phpunit

@@ -14,11 +14,7 @@ class ResponseSubscriber implements EventSubscriberInterface
 {
     public function onKernelException(ExceptionEvent $event): void
     {
-        if (strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
-            return;
-        }
-
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : $exception->getCode();
 
@@ -36,11 +32,11 @@ class ResponseSubscriber implements EventSubscriberInterface
                 $data['details'][] = [
                     'field' => $error->getPropertyPath(),
                     'error' => $error->getMessage(),
-                ];;
+                ];
             }
         }
 
-        $response = new Response(json_encode($data), $code);
+        $response = new Response((string) json_encode($data), $code);
         $response->headers->set('Content-Type', 'application/problem+json');
 
         $event->setResponse($response);

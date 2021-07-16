@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class RequestValidationExtension extends Extension
 {
-    // phpcs:disable
     public function load(array $configs, ContainerBuilder $container): void
     {
         $containerBuilder = new ContainerBuilder();

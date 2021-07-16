@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestResolver implements ArgumentValueResolverInterface
@@ -41,7 +40,7 @@ class RequestResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        /** @var RequestInterface $requestBundle */
+        /** @var RequestInterface $customRequest */
         $customRequest = $this->container->get($argument->getType());
 
         $customRequest->populate($request);
