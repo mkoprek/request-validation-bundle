@@ -31,8 +31,8 @@ class ResponseSubscriber implements EventSubscriberInterface
         if ($exception instanceof ApiValidationException) {
             foreach ($exception->getDetails() as $error) {
                 $data['details'][] = [
-                    'field' => $error->getPropertyPath(),
-                    'error' => $error->getMessage(),
+                    'field' => $error['field'],
+                    'error' => $error['error'],
                 ];
             }
         }
