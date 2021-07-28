@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MKoprek\RequestValidation\Resolver;
 
+use MKoprek\RequestValidation\Exception\ApiValidationException;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Request\RequestInterface;
 use ReflectionClass;
@@ -52,7 +53,7 @@ class RequestResolver implements ArgumentValueResolverInterface
         );
 
         if (count($validationErrors) > 0) {
-            throw RequestValidationException::withError($validationErrors);
+            throw ApiValidationException::withDetails($validationErrors);
         }
 
         yield $customRequest;

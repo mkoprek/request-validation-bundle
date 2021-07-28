@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\MKoprek\RequestValidation\Response;
 
 use Exception;
+use MKoprek\RequestValidation\Exception\ApiValidationException;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Response\ResponseSubscriber;
 use PHPUnit\Framework\TestCase;
@@ -88,7 +89,7 @@ class ResponseSubscriberTest extends TestCase
             $kernelMock,
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
-            RequestValidationException::withError($constraingValidationList)
+            ApiValidationException::withDetails($constraingValidationList)
         );
 
         $kernelException = new ResponseSubscriber();

@@ -8,19 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AbstractRequestTest extends TestCase
 {
-    private function createRequest(
-        string $method,
-        array $attributes = [],
-        array $post = [],
-        array $query = []
-    ): Request {
-        $content = json_encode($post);
-        $request = new Request($query, $post, $attributes, [], [], [], $content);
-        $request->setMethod($method);
-
-        return $request;
-    }
-
     /**
      * @test
      */

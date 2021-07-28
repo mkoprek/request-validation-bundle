@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\MKoprek\RequestValidation\Resolver;
 
+use MKoprek\RequestValidation\Exception\ApiValidationException;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Resolver\RequestResolver;
 use PHPUnit\Framework\TestCase;
@@ -95,7 +96,7 @@ class RequestResolverTest extends TestCase
      */
     public function it_throw_exception_when_resolve()
     {
-        $this->expectException(RequestValidationException::class);
+        $this->expectException(ApiValidationException::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')
