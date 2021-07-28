@@ -11,11 +11,8 @@ class ApiValidationException extends ApiProblemException
         int $statusCode,
         ?string $message = '',
         iterable $details = [],
-        \Throwable $previous = null,
-        array $headers = [],
-        ?int $code = 0
     ) {
-        parent::__construct(422, self::MESSAGE, $details, $previous, $headers, $code);
+        parent::__construct($statusCode, $message, $details);
     }
 
     public static function withDetails(array $details): self
