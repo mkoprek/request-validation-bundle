@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 class ResponseSubscriberTest extends TestCase
@@ -74,22 +75,20 @@ class ResponseSubscriberTest extends TestCase
         $field = md5((string) microtime(true));
         $error = md5((string) microtime(true));
 
-        $violation = new ConstraintViolation(
-            message: $error,
-            messageTemplate: null,
-            parameters: [],
-            root: '',
-            propertyPath: $field,
-            invalidValue: '',
-        );
-        $constraingValidationList = new ConstraintViolationList([$violation]);
+        $validationError = $this->createMock(ConstraintViolationInterface::class);
+        $validationError->method('getPropertyPath')
+                        ->willReturn(md5(microtime()));
+        $validationError->method('getMessage')
+                        ->willReturn(md5(microtime()));
+
+        $constraingValidationList = new ConstraintViolationList([$validationError]);
 
         $kernelMock = $this->createMock(HttpKernelInterface::class);
         $exceptionEvent = new ExceptionEvent(
             $kernelMock,
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
-            ApiValidationException::withDetails($constraingValidationList)
+            ApiValidationException::withDetails([$validationError])
         );
 
         $kernelException = new ResponseSubscriber();

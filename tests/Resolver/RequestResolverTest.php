@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Tests\MKoprek\RequestValidation\Request\RequestStub;
@@ -102,13 +103,19 @@ class RequestResolverTest extends TestCase
         $container->method('get')
                   ->willReturn(new RequestStub());
 
-        $validationError = $this->createMock(ConstraintViolationListInterface::class);
-        $validationError->method('count')
+        $validationError = $this->createMock(ConstraintViolationInterface::class);
+        $validationError->method('getPropertyPath')
+                        ->willReturn(md5(microtime()));
+        $validationError->method('getMessage')
+                        ->willReturn(md5(microtime()));
+
+        $validationErrorList = $this->createMock(ConstraintViolationListInterface::class);
+        $validationErrorList->method('count')
                         ->willReturn(123);
 
         $validator = $this->createMock(ValidatorInterface::class);
         $validator->method('validate')
-                  ->willReturn($validationError);
+                  ->willReturn([$validationError]);
 
         $requestResolver = new RequestResolver($container, $validator);
 

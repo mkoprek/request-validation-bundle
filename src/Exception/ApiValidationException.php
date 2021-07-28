@@ -18,17 +18,8 @@ class ApiValidationException extends ApiProblemException
         parent::__construct(422, self::MESSAGE, $details, $previous, $headers, $code);
     }
 
-    public static function withDetails(iterable $details)
+    public static function withDetails(array $details): self
     {
-        $array = [];
-
-        foreach($details as $detail) {
-            $array[] = [
-                'field' => $detail->getPropertyPath(),
-                'error' => $detail->getMessage(),
-            ];
-        }
-
-        return new self(422, self::MESSAGE, $array);
+        return new self(422, self::MESSAGE, $details);
     }
 }
