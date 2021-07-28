@@ -75,20 +75,17 @@ class ResponseSubscriberTest extends TestCase
         $field = md5((string) microtime(true));
         $error = md5((string) microtime(true));
 
-        $validationError = $this->createMock(ConstraintViolationInterface::class);
-        $validationError->method('getPropertyPath')
-                        ->willReturn(md5(microtime()));
-        $validationError->method('getMessage')
-                        ->willReturn(md5(microtime()));
-
-        $constraingValidationList = new ConstraintViolationList([$validationError]);
+        $array = [
+            'error' => $error,
+            'field' => $field,
+        ];
 
         $kernelMock = $this->createMock(HttpKernelInterface::class);
         $exceptionEvent = new ExceptionEvent(
             $kernelMock,
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
-            ApiValidationException::withDetails([$validationError])
+            ApiValidationException::withDetails([$array])
         );
 
         $kernelException = new ResponseSubscriber();
