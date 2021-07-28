@@ -20,6 +20,15 @@ class ApiValidationException extends ApiProblemException
 
     public static function withDetails(iterable $details)
     {
-        return new self(422, self::MESSAGE, array(...$details));
+        $array = [];
+
+        foreach($details as $detail) {
+            $array[] = [
+                'field' => $detail->getPropertyPath(),
+                'error' => $detail->getMessage(),
+            ];
+        }
+
+        return new self(422, self::MESSAGE, $array);
     }
 }
