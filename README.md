@@ -92,8 +92,15 @@ class UserCreateController
 
 ## Validation
 
-Validation is done automatically before request is parsed by controller. If there will be any validation error json with status of field will be returned:
+Validation is done automatically before request is parsed by controller. If there will be any validation error `ApiValidationException` is thrown. 
+If you want to return JSON with errors just add this to your services.yaml. It will handle ALL exceptions.
 
+```yaml
+  MKoprek\RequestValidation\Response\ResponseSubscriber:
+    tags:
+      - { name: kernel.event_subscriber, event: kernel.exception }
+```
+Example response with validation errors: 
 ```json
 {
     "status": 422,
@@ -114,7 +121,7 @@ Validation is done automatically before request is parsed by controller. If ther
     ]
 ```
 
-If exception will be thrown, then json with status code and message will be returned:
+Example with some other exception.
 
 ```json
 {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MKoprek\RequestValidation\Resolver;
 
+use MKoprek\RequestValidation\Exception\ApiValidationException;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Request\RequestInterface;
 use ReflectionClass;
@@ -10,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestResolver implements ArgumentValueResolverInterface
@@ -52,7 +54,17 @@ class RequestResolver implements ArgumentValueResolverInterface
         );
 
         if (count($validationErrors) > 0) {
-            throw RequestValidationException::withError($validationErrors);
+            $array = [];
+
+            /** @var ConstraintViolationInterface $validationError */
+            foreach($validationErrors as $validationError) {
+                $array[] = [
+                    'field' => $validationError->getPropertyPath(),
+                    'error' => $validationError->getMessage(),
+                ];
+            }
+
+            throw ApiValidationException::withDetails($array);
         }
 
         yield $customRequest;

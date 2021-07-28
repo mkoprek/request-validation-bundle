@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MKoprek\RequestValidation\Response;
 
+use MKoprek\RequestValidation\Exception\ApiValidationException;
 use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +28,11 @@ class ResponseSubscriber implements EventSubscriberInterface
             'message' => $exception->getMessage(),
         ];
 
-        if ($exception instanceof RequestValidationException) {
-            foreach ($exception->getErrors() as $error) {
+        if ($exception instanceof ApiValidationException) {
+            foreach ($exception->getDetails() as $error) {
                 $data['details'][] = [
-                    'field' => $error->getPropertyPath(),
-                    'error' => $error->getMessage(),
+                    'field' => $error['field'],
+                    'error' => $error['error'],
                 ];
             }
         }
