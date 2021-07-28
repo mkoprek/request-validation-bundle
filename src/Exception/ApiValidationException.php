@@ -5,7 +5,7 @@ namespace MKoprek\RequestValidation\Exception;
 
 class ApiValidationException extends ApiProblemException
 {
-    private const MESSAGE = 'Validation Exception';
+    public const MESSAGE = 'Validation Exception';
 
     public function __construct(
         int $statusCode,

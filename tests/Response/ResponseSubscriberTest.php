@@ -98,7 +98,7 @@ class ResponseSubscriberTest extends TestCase
         $response = json_decode($exceptionEvent->getResponse()->getContent(), true);
 
         $this->assertEquals(422, $response['status']);
-        $this->assertEquals(RequestValidationException::MESSAGE, $response['message']);
+        $this->assertEquals(ApiValidationException::MESSAGE, $response['message']);
     }
 
     /**
