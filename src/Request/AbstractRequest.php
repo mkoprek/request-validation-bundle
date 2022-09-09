@@ -21,8 +21,13 @@ abstract class AbstractRequest implements RequestInterface
 
         $data = $request->query->all();
 
-        if ($request->getMethod() !== 'GET') {
-            $data = $request->request->all();
+        if (in_array($request->getMethod(), ['POST', 'PATCH', 'PUT'], true)) {
+            $body = $request->getContent();
+            $body = json_decode((string) $body, true);
+
+            if (is_array($body)) {
+                $data = array_merge($data, $body);
+            }
         }
 
         foreach ($data as $key => $val) {
