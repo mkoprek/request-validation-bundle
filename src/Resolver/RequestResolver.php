@@ -20,10 +20,7 @@ class RequestResolver implements ArgumentValueResolverInterface
     {
     }
 
-    /**
-     * @return bool
-     */
-    public function supports(Request $request, ArgumentMetadata $argument)
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         if ($argument->getType() === null || $argument->getType() === '') {
             return false;
@@ -38,10 +35,7 @@ class RequestResolver implements ArgumentValueResolverInterface
         return $reflection->implementsInterface(RequestInterface::class);
     }
 
-    /**
-     * @return \Generator
-     */
-    public function resolve(Request $request, ArgumentMetadata $argument)
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         /** @var RequestInterface $customRequest */
         $customRequest = $this->container->get($argument->getType());
