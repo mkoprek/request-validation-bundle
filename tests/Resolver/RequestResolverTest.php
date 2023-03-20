@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Tests\MKoprek\RequestValidation\Request\RequestStub;
@@ -76,7 +77,7 @@ class RequestResolverTest extends TestCase
 
         $validator = $this->createMock(ValidatorInterface::class);
         $validator->method('validate')
-                  ->willReturn([]);
+                  ->willReturn(new ConstraintViolationList());
 
         $requestResolver = new RequestResolver($container, $validator);
 
@@ -89,7 +90,7 @@ class RequestResolverTest extends TestCase
         $return = $requestResolver->resolve(new Request(), $arguments);
 
         $this->assertIsIterable($return);
-        $this->assertCount(1, $return);
+        $this->assertEquals(1, iterator_count($return));
     }
 
     /**
@@ -115,7 +116,7 @@ class RequestResolverTest extends TestCase
 
         $validator = $this->createMock(ValidatorInterface::class);
         $validator->method('validate')
-                  ->willReturn([$validationError]);
+                  ->willReturn(new ConstraintViolationList([$validationError]));
 
         $requestResolver = new RequestResolver($container, $validator);
 
