@@ -5,15 +5,11 @@ namespace Tests\MKoprek\RequestValidation\Response;
 
 use Exception;
 use MKoprek\RequestValidation\Exception\ApiValidationException;
-use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Response\ResponseSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationInterface;
-use Symfony\Component\Validator\ConstraintViolationList;
 
 class ResponseSubscriberTest extends TestCase
 {
@@ -28,7 +24,7 @@ class ResponseSubscriberTest extends TestCase
         $kernelMock = $this->createMock(HttpKernelInterface::class);
         $exceptionEvent = new ExceptionEvent(
             $kernelMock,
-            new Request(),
+            Request::create(uri: '/api'),
             HttpKernelInterface::MAIN_REQUEST,
             new Exception($exceptionMessage, $exceptionCode)
         );
@@ -53,7 +49,7 @@ class ResponseSubscriberTest extends TestCase
         $kernelMock = $this->createMock(HttpKernelInterface::class);
         $exceptionEvent = new ExceptionEvent(
             $kernelMock,
-            new Request(),
+            Request::create(uri: '/api'),
             HttpKernelInterface::MAIN_REQUEST,
             new Exception($exceptionMessage, $exceptionCode)
         );
@@ -83,7 +79,7 @@ class ResponseSubscriberTest extends TestCase
         $kernelMock = $this->createMock(HttpKernelInterface::class);
         $exceptionEvent = new ExceptionEvent(
             $kernelMock,
-            new Request(),
+            Request::create(uri: '/api'),
             HttpKernelInterface::MAIN_REQUEST,
             ApiValidationException::withDetails([$array])
         );
