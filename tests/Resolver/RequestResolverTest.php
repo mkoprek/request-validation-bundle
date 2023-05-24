@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\MKoprek\RequestValidation\Resolver;
 
 use MKoprek\RequestValidation\Exception\ApiValidationException;
-use MKoprek\RequestValidation\Request\Exception\RequestValidationException;
 use MKoprek\RequestValidation\Resolver\RequestResolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;

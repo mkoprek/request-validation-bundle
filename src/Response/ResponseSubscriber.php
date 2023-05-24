@@ -15,6 +15,10 @@ class ResponseSubscriber implements EventSubscriberInterface
 {
     public function onKernelException(ExceptionEvent $event): void
     {
+        if (!str_starts_with($event->getRequest()->getPathInfo(), '/api')) {
+            return;
+        }
+
         $exception = $event->getThrowable();
 
         $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : $exception->getCode();
